@@ -94,8 +94,33 @@ public class ChatController : ControllerBase, IDisposable
     {
         this._logger.LogDebug("Chat request received.");
 
+        string month = ExtractMonth(ask.Input);
+        string city = ExtractCity(ask.Input);
+        string state= ExtractState(ask.Input);
+        bool isSearchMonth = false;
+        bool isSearchCity = false;
+        bool isSearchState = false;
+
+        if (!month.Contains(" not found"))
+        {
+            isSearchMonth = true;
+        }
+
+        if (!city.Contains(" not found"))
+        {
+            isSearchCity = true;
+        }
+
+        if (!state.Contains(" not found"))
+        {
+            isSearchState = true;
+        }
         // "Think of you like a farming expert who gives advices to farmers. Please make sure to give information only scoped to the weather, soil and farming, if not reply saying that you are the expert about farming"
-        ask.Input = "Think of you like a agriculture farming expert who gives advices to farmers. Please make sure to give information only scoped to the weather, soil and farming topics exclusively, if the question or discussion is about the topic other than the weather, soil and agriculture please reply saying that you are the expert about farming and not other areas. Example: if you are asked about stocks please reply saying that you are farming expert and not other areas" + ask.Input;
+        ask.Input = " Please provide a summary of the following article in less than 200 words, focusing on the main points and conclusions. " +
+            "Think of you like a agriculture farming expert who gives advices to farmers. Please make sure to return information only scoped to the weather, soil and farming topics exclusively," +
+            "if the ask  or discussion is about the topic not about the weather, soil and agriculture exclusively, " +
+            "Please reply saying that you are the expert about farming exclusively and not other areas such as stock market social media which are not in the context of agriculture." +
+            "Example: if you are asked about stock market please reply saying that you are farming expert and not other areas. Here is the ask or question that I have: " + ask.Input;
         // Verify that the chat exists and that the user has access to it.
         const string ChatIdKey = "chatId";
         var chatIdFromContext = ask.Variables.FirstOrDefault(x => x.Key == ChatIdKey);
@@ -350,6 +375,60 @@ public class ChatController : ControllerBase, IDisposable
             }
         }
     }
+
+    protected string ExtractMonth(string input)
+    {
+        // Use a simple regex pattern to extract the month (assumes month is in title case)
+        // You can enhance this with a more comprehensive month extraction method.
+        string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+
+        foreach (string month in months)
+        {
+            if (input.Contains(month))
+            {
+                return month;
+            }
+        }
+
+        // Handle the case where month extraction fails
+        return "Month not found";
+    }
+
+    protected string ExtractCity(string input)
+    {
+        // Use a simple regex pattern to extract the month (assumes month is in title case)
+        // You can enhance this with a more comprehensive month extraction method.
+        string[] cities = { "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "Fort Worth", "Columbus", "Indianapolis", "Charlotte", "San Francisco", "Seattle", "Denver", "Oklahoma City", "Nashville", "El Paso", "Washington", "Boston", "Las Vegas", "Portland", "Detroit", "Louisville", "Memphis", "Baltimore", "Milwaukee", "Albuquerque", "Fresno", "Tucson", "Sacramento", "Mesa", "Kansas City", "Atlanta", "Omaha", "Colorado Springs", "Raleigh", "Virginia Beach", "Long Beach", "Miami", "Oakland", "Minneapolis", "Tulsa", "Bakersfield", "Wichita", "Arlington", "Aurora", "Tampa", "New Orleans", "Cleveland", "Anaheim", "Honolulu", "Henderson", "Stockton", "Lexington", "Corpus Christi", "Riverside", "Santa Ana", "Orlando", "Irvine", "Cincinnati", "Newark", "Saint Paul", "Pittsburgh", "Greensboro", "St. Louis", "Lincoln", "Plano", "Anchorage", "Durham", "Jersey City", "Chandler", "Chula Vista", "Buffalo", "North Las Vegas", "Gilbert", "Madison", "Reno", "Toledo", "Fort Wayne", "Lubbock", "St. Petersburg", "Laredo", "Irving", "Chesapeake", "Winston–Salem", "Glendale", "Scottsdale", "Garland", "Boise", "Norfolk", "Spokane", "Fremont", "Richmond", "Santa Clarita", "San Bernardino", "Baton Rouge", "Hialeah", "Tacoma", "Modesto", "Port St. Lucie", "Huntsville", "Des Moines", "Moreno Valley", "Fontana", "Frisco", "Rochester", "Yonkers", "Fayetteville", "Worcester", "Cape Coral", "McKinney", "Little Rock", "Oxnard", "Amarillo", "Augusta", "Salt Lake City", "Montgomery", "Birmingham", "Grand Rapids", "Grand Prairie", "Overland Park", "Tallahassee", "Huntington Beach", "Sioux Falls", "Peoria", "Knoxville", "Vancouver", "Providence", "Akron", "Brownsville", "Mobile", "Newport News", "Tempe", "Shreveport", "Chattanooga", "Fort Lauderdale", "Elk Grove", "Ontario", "Salem", "Cary", "Santa Rosa", "Rancho Cucamonga", "Eugene", "Oceanside", "Clarksville", "Garden Grove", "Lancaster", "Springfield", "Pembroke Pines", "Fort Collins", "Palmdale", "Salinas", "Hayward", "Corona", "Paterson", "Murfreesboro", "Macon", "Lakewood", "Killeen", "Alexandria", "Sunnyvale", "Hollywood", "Roseville", "Charleston", "Escondido", "Joliet", "Jackson", "Bellevue", "Surprise", "Naperville", "Pasadena", "Pomona", "Bridgeport", "Denton", "Rockford", "Mesquite", "Savannah", "Syracuse", "McAllen", "Torrance", "Olathe", "Visalia", "Thornton", "Fullerton", "Gainesville", "Waco", "West Valley City", "Warren", "Hampton", "Dayton", "Columbia", "Orange", "Cedar Rapids", "Stamford", "Victorville", "Elizabeth", "New Haven", "Miramar", "Kent", "Sterling Heights", "Carrollton", "Coral Springs", "Midland", "Norman", "Athens", "Santa Clara", "Fargo", "Pearland", "Simi Valley", "Meridian", "Topeka", "Allentown", "Thousand Oaks", "Abilene", "Vallejo", "Concord", "Round Rock", "Arvada", "Clovis", "Palm Bay", "Independence", "Lafayette", "Ann Arbor", "Hartford", "College Station", "Fairfield", "Wilmington", "North Charleston", "Billings", "West Palm Beach", "Berkeley", "Cambridge", "Clearwater", "West Jordan", "Evansville", "Richardson", "Broken Arrow", "League City", "Manchester", "Lakeland", "Carlsbad", "Antioch", "Westminster", "High Point", "Provo", "Lowell", "Elgin", "Waterbury", "Gresham", "Murrieta", "Lewisville", "Las Cruces", "Lansing", "Beaumont", "Odessa", "Pueblo", "Downey", "Pompano Beach", "Miami Gardens", "Temecula", "Everett", "Costa Mesa", "Ventura", "Sparks", "Santa Maria", "Sugar Land", "Greeley", "South Fulton", "Dearborn", "Edison", "Tyler", "Sandy Springs", "West Covina", "Green Bay", "Centennial", "Jurupa Valley", "El Monte", "Allen", "Hillsboro", "Menifee", "Nampa", "Spokane Valley", "Rio Rancho", "Brockton", "El Cajon", "Burbank", "Inglewood", "Renton", "Davie", "Rialto", "Boulder", "South Bend", "Woodbridge", "Vacaville", "Wichita Falls", "Lee's Summit", "Edinburg", "Chico", "San Mateo", "Bend", "Goodyear", "Buckeye", "Daly City", "Fishers", "Quincy", "Davenport", "Hesperia", "New Bedford", "Lynn", "Carmel", "Longmont", "Tuscaloosa", "Norwalk" };
+        foreach (string city in cities)
+        {
+            if (input.Contains(city))
+            {
+                return city;
+            }
+        }
+
+        // Handle the case where month extraction fails
+        return "City not found";
+    }
+
+    protected string ExtractState(string input)
+    {
+        // Use a simple regex pattern to extract the month (assumes month is in title case)
+        // You can enhance this with a more comprehensive month extraction method.
+        string[] states = { "New York", "California", "Illinois", "Texas", "Arizona", "Pennsylvania", "Florida", "Ohio", "Indiana", "North Carolina", "Washington", "Colorado", "Oklahoma", "Tennessee", "District of Columbia", "Massachusetts", "Nevada", "Oregon", "Michigan", "Kentucky", "Maryland", "Wisconsin", "New Mexico", "Missouri", "Georgia", "Nebraska", "Virginia", "Minnesota", "Kansas", "Louisiana", "Hawaii", "New Jersey", "Alaska", "Idaho", "Alabama", "Iowa", "Arkansas", "Utah", "South Dakota", "Rhode Island", "South Carolina", "Mississippi", "Connecticut", "North Dakota", "Montana", "New Hampshire" };
+
+        foreach (string state in states)
+        {
+            if (input.Contains(state))
+            {
+                return state;
+            }
+        }
+
+        // Handle the case where month extraction fails
+        return "State not found";
+    }
+
 
     /// <inheritdoc />
     public void Dispose()
