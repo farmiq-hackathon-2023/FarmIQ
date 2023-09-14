@@ -1,16 +1,5 @@
-# Chat Copilot Sample Application
+# FarmIQ Assistant
 
-This sample allows you to build your own integrated large language model (LLM) chat copilot. The sample is built on Microsoft [Semantic Kernel](https://github.com/microsoft/semantic-kernel) and has two components: a frontend [React web app](./webapp/) and a backend [.NET web API service](./webapi/).
-
-These quick-start instructions run the sample locally. They can also be found on the official Chat Copilot Microsoft Learn documentation page for [getting started](https://learn.microsoft.com/semantic-kernel/chat-copilot/getting-started).
-
-To deploy the sample to Azure, please view [Deploying Chat Copilot](./scripts/deploy/README.md) after meeting the [requirements](#requirements) described below.
-
-> **IMPORTANT:** This sample is for educational purposes only and is not recommended for production deployments.
-
-> **IMPORTANT:** Each chat interaction will call Azure OpenAI/OpenAI which will use tokens that you may be billed for.
-
-![Chat Copilot answering a question](https://learn.microsoft.com/en-us/semantic-kernel/media/chat-copilot-in-action.gif)
 
 # Requirements
 
@@ -74,80 +63,6 @@ You will need the following items to run the sample:
      .\Start-Backend.ps1
      ```
 
-## Linux/macOS
-
-1. Open Bash as an administrator.
-2. Configure environment.
-
-   ```bash
-   cd <path to chat-copilot>/scripts/
-   ```
-
-   **Ubuntu/Debian Linux**
-
-   ```bash
-   ./install-apt.sh
-   ```
-
-   > NOTE: This script uses `apt` to install `dotnet-sdk-7.0`, `nodejs`, and `yarn`.
-
-   **macOS**
-
-   ```bash
-   ./install-brew.sh
-   ```
-
-   > NOTE: This script uses `homebrew` to install `dotnet-sdk`, `nodejs`, and `yarn`.
-
-3. Configure Chat Copilot.
-
-   1. For OpenAI
-
-      ```bash
-      ./configure.sh --aiservice OpenAI --apikey {API_KEY}
-      ```
-
-      - `API_KEY`: The `API key` for OpenAI.
-
-   2. For Azure OpenAI
-
-      ```bash
-      ./configure.sh --aiservice AzureOpenAI \
-                     --endpoint {AZURE_OPENAI_ENDPOINT} \
-                     --apikey   {API_KEY}
-      ```
-
-      - `AZURE_OPENAI_ENDPOINT`: The Azure OpenAI resource `Endpoint` address.
-      - `API_KEY`: The `API key` for Azure OpenAI.
-
-      **IMPORTANT:** If you deployed models `gpt-35-turbo` and `text-embedding-ada-002`
-      with custom names (instead of each own's given name), you need to specify
-      the deployment names with three additional parameters:
-
-      ```bash
-      ./configure.sh --aiservice AzureOpenAI \
-                     --endpoint        {AZURE_OPENAI_ENDPOINT} \
-                     --apikey          {API_KEY} \
-                     --completionmodel {DEPLOYMENT_NAME} \
-                     --plannermodel    {DEPLOYMENT_NAME} \
-                     --embeddingmodel  {DEPLOYMENT_NAME}
-      ```
-
-4. Run Chat Copilot locally. This step starts both the backend API and frontend application.
-
-   ```bash
-   ./start.sh
-   ```
-
-   It may take a few minutes for Yarn packages to install on the first run.
-
-   > NOTE: Confirm pop-ups are not blocked and you are logged in with the same account used to register the application.
-
-   - (Optional) To start ONLY the backend:
-
-     ```powershell
-     ./start-backend.sh
-     ```
 
 ## (Optional) Enable backend authentication via Azure AD
 
@@ -334,13 +249,6 @@ If you would like to learn more about Semantic Kernel and AI, you may also be in
 We welcome your contributions and suggestions to the Chat Copilot Sample App! One of the easiest
 ways to participate is to engage in discussions in the GitHub repository.
 Bug reports and fixes are welcome!
-
-To learn more and get started:
-
-- Read the [documentation](https://learn.microsoft.com/semantic-kernel/chat-copilot/)
-- Join the [Discord community](https://aka.ms/SKDiscord)
-- [Contribute](CONTRIBUTING.md) to the project
-- Follow the team on our [blog](https://aka.ms/sk/blog)
 
 ## Code of Conduct
 
