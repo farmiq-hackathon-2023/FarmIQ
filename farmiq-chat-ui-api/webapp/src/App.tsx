@@ -16,7 +16,7 @@ import { RootState } from './redux/app/store';
 import { FeatureKeys } from './redux/features/app/AppState';
 import { addAlert, setActiveUserInfo, setServiceOptions } from './redux/features/app/appSlice';
 import { semanticKernelDarkTheme, semanticKernelLightTheme } from './styles';
-import botIcon1 from './assets/bot-icons/bot-icon-1.png';
+import botIcon1WhiteFill from './assets/bot-icons/bot-icon-1-white-fill.png';
 
 export const useClasses = makeStyles({
     container: {
@@ -176,7 +176,7 @@ const Chat = ({
         <div className={classes.container}>
             <div className={classes.header}>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <img style={{ height: "45px", marginTop: "5px" }} src={botIcon1}></img>
+                    <img style={{ height: "45px", marginTop: "5px" }} src={botIcon1WhiteFill}></img>
                     <Subtitle1 as="h1" style={{ paddingLeft: '0px' }}>FarmIQ</Subtitle1>
                 </div>
                 {appState > AppState.SettingUserInfo && (
