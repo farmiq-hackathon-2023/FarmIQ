@@ -16,6 +16,7 @@ import { RootState } from './redux/app/store';
 import { FeatureKeys } from './redux/features/app/AppState';
 import { addAlert, setActiveUserInfo, setServiceOptions } from './redux/features/app/appSlice';
 import { semanticKernelDarkTheme, semanticKernelLightTheme } from './styles';
+import botIcon1 from './assets/bot-icons/bot-icon-1.png';
 
 export const useClasses = makeStyles({
     container: {
@@ -28,7 +29,7 @@ export const useClasses = makeStyles({
     header: {
         alignItems: 'center',
         backgroundColor: '#13a10e',
-        color: '#13a10e',
+        color: '#ffffff',
         display: 'flex',
         '& h1': {
             paddingLeft: tokens.spacingHorizontalXL,
@@ -145,7 +146,7 @@ const App: FC = () => {
                         <div className={classes.container}>
                             <div className={classes.header}>
                                 <Subtitle1 as="h1">FarmIQ</Subtitle1>
-                                
+
                             </div>
                             {appState === AppState.SigningOut && <Loading text="Signing you out..." />}
                             {appState !== AppState.SigningOut && <Login />}
@@ -174,7 +175,10 @@ const Chat = ({
     return (
         <div className={classes.container}>
             <div className={classes.header}>
-                <Subtitle1 as="h1">Chat Copilot</Subtitle1>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <img style={{ height: "45px", marginTop: "5px" }} src={botIcon1}></img>
+                    <Subtitle1 as="h1" style={{ paddingLeft: '0px' }}>FarmIQ</Subtitle1>
+                </div>
                 {appState > AppState.SettingUserInfo && (
                     <div className={classes.cornerItems}>
                         <div className={classes.cornerItems}>
