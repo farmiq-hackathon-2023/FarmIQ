@@ -94,6 +94,8 @@ public class ChatController : ControllerBase, IDisposable
     {
         this._logger.LogDebug("Chat request received.");
 
+        // "Think of you like a farming expert who gives advices to farmers. Please make sure to give information only scoped to the weather, soil and farming, if not reply saying that you are the expert about farming"
+        ask.Input = "Think of you like a agriculture farming expert who gives advices to farmers. Please make sure to give information only scoped to the weather, soil and farming topics exclusively, if the question or discussion is about the topic other than the weather, soil and agriculture please reply saying that you are the expert about farming and not other areas. Example: if you are asked about stocks please reply saying that you are farming expert and not other areas" + ask.Input;
         // Verify that the chat exists and that the user has access to it.
         const string ChatIdKey = "chatId";
         var chatIdFromContext = ask.Variables.FirstOrDefault(x => x.Key == ChatIdKey);
@@ -118,7 +120,9 @@ public class ChatController : ControllerBase, IDisposable
         }
 
         // Put ask's variables in the context we will use.
-        var contextVariables = askConverter.GetContextVariables(ask);
+        var contextVariables =  askConverter.GetContextVariables(ask);
+        
+        this._logger.LogInformation(":::::::::::::::::::::::::::::::::::contextVariables:::::::::::::::::::::::::: "+ contextVariables);
 
         // Register plugins that have been enabled
         var openApiSkillsAuthHeaders = this.GetPluginAuthHeaders(this.HttpContext.Request.Headers);
@@ -172,6 +176,9 @@ public class ChatController : ControllerBase, IDisposable
             Variables = result.Variables.Select(
                 v => new KeyValuePair<string, string>(v.Key, v.Value))
         };
+
+
+        this._logger.LogInformation(":::::::::::::::::::::::::::::::::::chatSkillAskResult:::::::::::::::::::::::::: " + chatSkillAskResult.Value);
 
         // Broadcast AskResult to all users
         if (ask.Variables.Where(v => v.Key == "chatId").Any())
