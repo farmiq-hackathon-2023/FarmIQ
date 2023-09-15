@@ -32,6 +32,8 @@ const useClasses = makeStyles({
     },
     typingIndicator: {
         maxHeight: '28px',
+        color: '#FFFFFF',
+        fontWeight: 500,
     },
     content: {
         ...shorthands.gap(tokens.spacingHorizontalM),
@@ -44,6 +46,7 @@ const useClasses = makeStyles({
     },
     textarea: {
         maxHeight: '80px',
+        boxShadow: '3px 7px 5px rgb(0 0 0 / 0.3)'
     },
     controls: {
         display: 'flex',
@@ -234,6 +237,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ isDraggingOver, onDragLeav
                         disabled={
                             conversations[selectedId].disabled || (importingDocuments && importingDocuments.length > 0)
                         }
+                        style={{ color: "#FFFFFF" }}
                         appearance="transparent"
                         icon={<AttachRegular />}
                         onClick={() => documentFileRef.current?.click()}
@@ -253,6 +257,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ isDraggingOver, onDragLeav
                     )}
                     <Button
                         title="Submit"
+                        style={{ color: "#FFFFFF" }}
                         aria-label="Submit message"
                         appearance="transparent"
                         icon={<SendRegular />}

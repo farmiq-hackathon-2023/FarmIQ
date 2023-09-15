@@ -29,14 +29,16 @@ import { EditChatName } from './shared/EditChatName';
 import { DocumentsTab } from './tabs/DocumentsTab';
 import { PersonaTab } from './tabs/PersonaTab';
 import { PlansTab } from './tabs/PlansTab';
+import farmBackground from '../../assets/farm-background-transparent.png'
 
 const useClasses = makeStyles({
     root: {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        backgroundColor: tokens.colorNeutralBackground3,
         boxShadow: 'rgb(0 0 0 / 25%) 0 0.2rem 0.4rem -0.075rem',
+        backgroundSize: '100% 100%',
+        backgroundImage: `url(${farmBackground})`
     },
     header: {
         ...shorthands.borderBottom('1px', 'solid', 'rgb(0 0 0 / 10%)'),
