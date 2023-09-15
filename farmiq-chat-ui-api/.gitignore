@@ -409,7 +409,6 @@ FodyWeavers.xsd
 *.key
 *.pem
 
-.env
 certs/
 launchSettings.json
 config.development.yaml
@@ -449,7 +448,6 @@ _site
 .yarnrc.yml
 
 # Python Environments
-.env
 .venv
 .myenv
 env/
