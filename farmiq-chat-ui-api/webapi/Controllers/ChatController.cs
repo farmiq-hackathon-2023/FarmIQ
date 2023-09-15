@@ -97,30 +97,13 @@ public class ChatController : ControllerBase, IDisposable
         string month = ExtractMonth(ask.Input);
         string city = ExtractCity(ask.Input);
         string state= ExtractState(ask.Input);
-        bool isSearchMonth = false;
-        bool isSearchCity = false;
-        bool isSearchState = false;
 
-        if (!month.Contains(" not found"))
-        {
-            isSearchMonth = true;
-        }
-
-        if (!city.Contains(" not found"))
-        {
-            isSearchCity = true;
-        }
-
-        if (!state.Contains(" not found"))
-        {
-            isSearchState = true;
-        }
         // "Think of you like a farming expert who gives advices to farmers. Please make sure to give information only scoped to the weather, soil and farming, if not reply saying that you are the expert about farming"
-        ask.Input = " Please provide a summary of the following article in less than 200 words, focusing on the main points and conclusions. " +
-            "Think of you like a agriculture farming expert who gives advices to farmers. Please make sure to return information only scoped to the weather, soil and farming topics exclusively," +
-            "if the ask  or discussion is about the topic not about the weather, soil and agriculture exclusively, " +
-            "Please reply saying that you are the expert about farming exclusively and not other areas such as stock market social media which are not in the context of agriculture." +
-            "Example: if you are asked about stock market please reply saying that you are farming expert and not other areas. Here is the ask or question that I have: " + ask.Input;
+        // ask.Input = " Please provide a summary of the following article in less than 200 words, focusing on the main points and conclusions. " +
+        //     "Think of you like a agriculture farming expert who gives advices to farmers. Please make sure to return information only scoped to the weather, soil and farming topics exclusively," +
+        //     "if the ask  or discussion is about the topic not about the weather, soil and agriculture exclusively, " +
+        //     "Please reply saying that you are the expert about farming exclusively and not other areas such as stock market social media which are not in the context of agriculture." +
+        //     "Example: if you are asked about stock market please reply saying that you are farming expert and not other areas. Here is the ask or question that I have: " + ask.Input;
         // Verify that the chat exists and that the user has access to it.
         const string ChatIdKey = "chatId";
         var chatIdFromContext = ask.Variables.FirstOrDefault(x => x.Key == ChatIdKey);
@@ -144,9 +127,22 @@ public class ChatController : ControllerBase, IDisposable
             return this.BadRequest("ChatId not specified.");
         }
 
+        // bool oaiCall = true;
+
+        // this._logger.LogInformation(":::::::::::::::::::::::::::::::::::contextVariables::::::::::::::::::::::::::isSearchCity::: " + isSearchCity+ ":::::::::::isSearchMonth::::::::::::"+ isSearchMonth + ":::::::::::isSearchState::::::::::::"+ isSearchState);
+
+        // if (isSearchState || isSearchCity || isSearchMonth)
+        // {
+
+        //     string queryCondition = "";
+        //     if (isSearchCity) queryCondition = queryCondition + "&City=" + city;
+        //     if (isSearchMonth) queryCondition = queryCondition + "&Month=" + month;
+        //     if (isSearchState) queryCondition = queryCondition + "&State=" + state;
+        //     oaiCall = false;
+        // }
+        
         // Put ask's variables in the context we will use.
         var contextVariables =  askConverter.GetContextVariables(ask);
-        
         this._logger.LogInformation(":::::::::::::::::::::::::::::::::::contextVariables:::::::::::::::::::::::::: "+ contextVariables);
 
         // Register plugins that have been enabled
@@ -195,6 +191,15 @@ public class ChatController : ControllerBase, IDisposable
             return this.BadRequest(errorMessage);
         }
 
+        // string cogResult = "";
+        // if (!oaiCall)
+        // {
+        //     this._logger.LogInformation(oaiCall + "::::oaiCalloaiCalloaiCalloaiCall:::::::::::::::::::::::::::::::chatSkillAskResult:::::::::::::::::::::::::: ");
+        //     string cropType = "blackbean";
+        //     cogResult = "In light of the data for the specific month of " + month + ", our crop type prediction analysis indicates that " + cropType + "is likely to be the most suitable and profitable option for cultivation during this period." +
+        //         " This prediction is based on a comprehensive assessment of factors such as climate conditions, soil quality, and historical yield data, which collectively suggest that " + cropType + "is well-suited for optimal growth and yield during this time";
+        // }
+
         AskResult chatSkillAskResult = new()
         {
             Value = result.Result,
@@ -202,8 +207,20 @@ public class ChatController : ControllerBase, IDisposable
                 v => new KeyValuePair<string, string>(v.Key, v.Value))
         };
 
+        /*
+        this._logger.LogInformation(":::::::::::::::::::::::::::::::::::chatSkillAskResult:::::::::::::::::::::::::: " + chatSkillAskResult.Value);
+        if (!oaiCall)
+        {
+            this._logger.LogInformation(oaiCall+ "::::oaiCalloaiCalloaiCalloaiCall:::::::::::::::::::::::::::::::chatSkillAskResult:::::::::::::::::::::::::: " + chatSkillAskResult.Value);
+            string cropType = "blackbean";
+            chatSkillAskResult.Value = "In light of the data for the specific month of "+month+", our crop type prediction analysis indicates that "+ cropType + "is likely to be the most suitable and profitable option for cultivation during this period." +
+                " This prediction is based on a comprehensive assessment of factors such as climate conditions, soil quality, and historical yield data, which collectively suggest that "+ cropType+ "is well-suited for optimal growth and yield during this time";
+        }
+        */
 
         this._logger.LogInformation(":::::::::::::::::::::::::::::::::::chatSkillAskResult:::::::::::::::::::::::::: " + chatSkillAskResult.Value);
+
+
 
         // Broadcast AskResult to all users
         if (ask.Variables.Where(v => v.Key == "chatId").Any())
@@ -211,6 +228,10 @@ public class ChatController : ControllerBase, IDisposable
             var chatId = ask.Variables.Where(v => v.Key == "chatId").First().Value;
             await messageRelayHubContext.Clients.Group(chatId).SendAsync(GeneratingResponseClientCall, chatId, null);
         }
+
+
+
+        this._logger.LogInformation(":::::::::::::::::::::::::::::::::::chatSkillAskResult:::::::::::::::::::::::::: " + chatSkillAskResult);
 
         return this.Ok(chatSkillAskResult);
     }
