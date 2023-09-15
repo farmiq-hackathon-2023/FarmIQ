@@ -44,7 +44,7 @@ const useClasses = makeStyles({
         ...shorthands.borderBottom('1px', 'solid', 'rgb(0 0 0 / 10%)'),
         ...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalM),
         backgroundColor: tokens.colorNeutralBackground4,
-        display: 'flex',
+        display: 'none',
         flexDirection: 'row',
         boxSizing: 'border-box',
         width: '100%',

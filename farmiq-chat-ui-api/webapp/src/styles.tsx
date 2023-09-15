@@ -31,7 +31,7 @@ export const semanticKernelBrandRamp: BrandVariants = {
 
 export const semanticKernelLightTheme: Theme & { colorMeBackground: string } = {
     ...createLightTheme(semanticKernelBrandRamp),
-    colorMeBackground: '#e8ebf9',
+    colorMeBackground: '#d0fbd5',
 };
 
 export const semanticKernelDarkTheme: Theme & { colorMeBackground: string } = {
@@ -48,7 +48,7 @@ export const Breakpoints = {
 };
 
 export const ScrollBarStyles: GriffelStyle = {
-    overflowY: 'scroll',
+    overflowY: 'auto',
     '&:hover': {
         '&::-webkit-scrollbar-thumb': {
             backgroundColor: tokens.colorScrollbarOverlay,
