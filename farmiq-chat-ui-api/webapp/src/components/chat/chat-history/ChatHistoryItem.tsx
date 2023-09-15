@@ -45,9 +45,11 @@ const useClasses = makeStyles({
         backgroundColor: customTokens.colorNeutralBackground1,
         ...shorthands.borderRadius(customTokens.borderRadiusMedium),
         ...shorthands.padding(customTokens.spacingVerticalS, customTokens.spacingHorizontalL),
+        boxShadow: '5px 7px 5px rgb(0 0 0 / 0.3)'
     },
     me: {
         backgroundColor: customTokens.colorMeBackground,
+        boxShadow: '5px 7px 5px rgb(0 0 0 / 0.3)'
     },
     time: {
         color: customTokens.colorNeutralForeground3,
@@ -96,8 +98,8 @@ export const ChatHistoryItem: React.FC<ChatHistoryItemProps> = ({ message, getRe
     const avatar: AvatarProps = isBot
         ? { image: { src: conversations[selectedId].botProfilePicture } }
         : isDefaultUser
-        ? { idForColor: selectedId, color: 'colorful' }
-        : { name: fullName, color: 'colorful' };
+            ? { idForColor: selectedId, color: 'colorful' }
+            : { name: fullName, color: 'colorful' };
 
     let content: JSX.Element;
     if (isBot && message.type === ChatMessageType.Plan) {
